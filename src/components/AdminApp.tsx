@@ -3,9 +3,9 @@ import * as React from "react";
 import { Amplify } from "aws-amplify";
 import { Resource } from "react-admin";
 import { AmplifyAdmin } from "react-admin-amplify";
-import awsExports from "./aws-exports";
-import * as mutations from "./graphql/mutations";
-import * as queries from "./graphql/queries";
+import awsExports from "../aws-exports";
+import * as mutations from "../graphql/mutations";
+import * as queries from "../graphql/queries";
 Amplify.configure(awsExports);
 
 const AdminApp = () => (
