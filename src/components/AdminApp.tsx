@@ -1,28 +1,17 @@
 "use client"; // remove this line if you choose Pages Router
 import * as React from "react";
-import { Admin, Resource, ListGuesser, EditGuesser, fetchUtils } from 'react-admin';
-import postgrestRestProvider, {
-    IDataProviderConfig,
-    defaultPrimaryKeys,
-    defaultSchema,
-} from '@raphiniert/ra-data-postgrest';
-
-const config: IDataProviderConfig = {
-    apiUrl: '/api/admin',
-    httpClient: fetchUtils.fetchJson,
-    defaultListOp: 'eq',
-    primaryKeys: defaultPrimaryKeys,
-    schema: defaultSchema,
-};
-
-const dataProvider = postgrestRestProvider(config);
+import { Amplify } from "aws-amplify";
+import { Resource } from "react-admin";
+import { AmplifyAdmin } from "react-admin-amplify";
+import awsExports from "./aws-exports";
+import * as mutations from "./graphql/mutations";
+import * as queries from "./graphql/queries";
+Amplify.configure(awsExports);
 
 const AdminApp = () => (
-  <Admin dataProvider={dataProvider}>
-    <Resource name="users" list={ListGuesser} edit={EditGuesser} recordRepresentation="name" />
-    <Resource name="posts" list={ListGuesser} edit={EditGuesser} recordRepresentation="title" />
-    <Resource name="comments" list={ListGuesser} edit={EditGuesser} />
-  </Admin>
+  <AmplifyAdmin  operations={{ queries, mutations }}  options={{ authGroups: ["admin"] }} >
+     <Resource name="orders" />
+  </AmplifyAdmin>
 );
 
 export default AdminApp;
